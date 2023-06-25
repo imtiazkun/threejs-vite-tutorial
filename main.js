@@ -2,10 +2,17 @@ import './style.css'
 
 // import three as THREE
 import * as THREE from 'three'
+import GUI from 'lil-gui';
+
 
 
 // Scene
 const scene = new THREE.Scene()
+
+// AxesHelper
+const axesHelper = new THREE.AxesHelper(5);
+scene.add(axesHelper);
+
 // Object
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0x77ba66 })
@@ -29,32 +36,51 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.render(scene, camera)
 
+// debug
+const gui = new GUI();
+gui.add(mesh.position, "x")
+  .name("Position X")
+  .max(3)
+  .min(-3)
+  .onChange(() => renderer.render(scene, camera));
+
+gui.add(mesh.position, "y")
+  .name("Position Y")
+  .max(3)
+  .min(-3)
+  .onChange(() => renderer.render(scene, camera));
+
+gui.add(mesh.rotation, "y")
+  .name("Rotation Y")
+  .max(3)
+  .min(-3)
+  .onChange(() => renderer.render(scene, camera));
+
+gui.addColor(mesh.material, "color")
+  .name("Color")
+  .onChange(() => renderer.render(scene, camera));
+
+gui.add(mesh, "visible")
+  .onChange(() => renderer.render(scene, camera));
 
 // write a function to make the cube rotate
-const colors = [
-  0x77ba66,
-  0x66baba,
-  0xba6677,
-  0x6666ba,
-  0xba66ba
-]
 
-const tick = () => {
-  // Update objects
-  mesh.rotation.x += 0.01
-  mesh.rotation.y += 0.01
-  mesh.rotation.z += 0.01
-  // change mesh color
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
-  mesh.material.color.set(randomColor)
-  // Render
-  renderer.render(scene, camera)
+// const tick = () => {
+//   // Update objects
+//   mesh.rotation.x += 0.01
+//   mesh.rotation.y += 0.01
+//   mesh.rotation.z += 0.01
+//   // change mesh color
+//   const randomColor = colors[Math.floor(Math.random() * colors.length)];
+//   mesh.material.color.set(randomColor)
+//   // Render
+//   renderer.render(scene, camera)
 
-  // Call tick again on the next frame
-  window.requestAnimationFrame(tick)
-}
+//   // Call tick again on the next frame
+//   window.requestAnimationFrame(tick)
+// }
 
-tick()
+// tick()
 
 
 
@@ -73,12 +99,12 @@ window.addEventListener("resize", () => {
 })
 
 
-// write a function to make the canvas full screen on double click
-window.addEventListener("dblclick", () => {
-  if (!document.fullscreenElement) {
-    canvas.requestFullscreen()
-  }
-  else {
-    document.exitFullscreen()
-  }
-})
+// // write a function to make the canvas full screen on double click
+// window.addEventListener("dblclick", () => {
+//   if (!document.fullscreenElement) {
+//     canvas.requestFullscreen()
+//   }
+//   else {
+//     document.exitFullscreen()
+//   }
+// })
