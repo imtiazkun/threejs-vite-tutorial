@@ -14,10 +14,21 @@ const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 
 // Object
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0x77ba66 })
+
+
+const geometry = new THREE.DodecahedronGeometry(1, 0)
+const material = new THREE.MeshStandardMaterial({ color: 0x77ba66 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+// Lighting
+const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+directionalLight.position.set( 5, 5, 10 );
+scene.add( directionalLight );
+
+const helper = new THREE.DirectionalLightHelper( directionalLight, 5 );
+scene.add( helper );
+
 // Camera
 const sizes = {
   width: window.innerWidth,
@@ -65,22 +76,19 @@ gui.add(mesh, "visible")
 
 // write a function to make the cube rotate
 
-// const tick = () => {
-//   // Update objects
-//   mesh.rotation.x += 0.01
-//   mesh.rotation.y += 0.01
-//   mesh.rotation.z += 0.01
-//   // change mesh color
-//   const randomColor = colors[Math.floor(Math.random() * colors.length)];
-//   mesh.material.color.set(randomColor)
-//   // Render
-//   renderer.render(scene, camera)
+const tick = () => {
+  // Update objects
+  mesh.rotation.x += 0.01
+  mesh.rotation.y += 0.01
+  mesh.rotation.z += 0.01
+  // Render
+  renderer.render(scene, camera)
 
-//   // Call tick again on the next frame
-//   window.requestAnimationFrame(tick)
-// }
+  // Call tick again on the next frame
+  window.requestAnimationFrame(tick)
+}
 
-// tick()
+tick()
 
 
 
